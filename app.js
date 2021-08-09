@@ -30,6 +30,18 @@ const vm = new Vue({
         .then((json) => {
           this.produto = json
         })
+    },
+    fecharModal(event) {
+      if(event.target === event.currentTarget) {
+        this.produto = false
+      }
+    },
+    abrirModal(id) {
+      this.fetchDescricao(id)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
     }
   },
   created() {
