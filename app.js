@@ -47,12 +47,12 @@ const vm = new Vue({
         })
     },
     fecharModal(event) {
-      if(event.target === event.currentTarget) {
+      if (event.target === event.currentTarget) {
         this.produto = false
       }
     },
     clickForaCarrinho(event) {
-      if(event.target === event.currentTarget) {
+      if (event.target === event.currentTarget) {
         this.carrinhoAtivo = false
       }
     },
@@ -65,17 +65,25 @@ const vm = new Vue({
     },
     adicionarItem() {
       this.produto.estoque--
-      const {id, nome, preco} = this.produto
-      this.carrinho.push({id, nome, preco})
+      const { id, nome, preco } = this.produto
+      this.carrinho.push({ id, nome, preco })
       this.alerta(`${nome} foi adicionado ao carrinho`)
     },
     removerItem(index) {
       this.carrinho.splice(index, 1)
     },
     checkLocalStorage() {
-      if(window.localStorage.carrinho) {
+      if (window.localStorage.carrinho) {
         this.carrinho = JSON.parse(window.localStorage.carrinho)
       }
+    },
+    checkEstoque() {
+      const items = this.carrinho.filter(item => {
+        if (item.id === this.produto.id) {
+          return true
+        }
+      })
+      this.produto.estoque = this.produto.estoque - items.length
     },
     alerta(mensagem) {
       this.mensagemAlerta = mensagem
@@ -86,7 +94,7 @@ const vm = new Vue({
     },
     router() {
       const hash = document.location.hash
-      if(hash) {
+      if (hash) {
         this.fetchDescricao(hash.replace('#', ''))
       }
     }
@@ -95,7 +103,10 @@ const vm = new Vue({
     produto() {
       document.title = this.produto.nome || 'Techno'
       const hash = this.produto.id || ''
-      history.pushState(null,null, `#${hash}`)
+      history.pushState(null, null, `#${hash}`)
+      if (this.produto) {
+        this.checkEstoque()
+      }
     },
     carrinho() {
       window.localStorage.carrinho = JSON.stringify(this.carrinho)
