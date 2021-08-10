@@ -18,7 +18,7 @@
 
     <header class="header">
       <img class="logo" src="./assets/techno.svg" alt="Techno">
-      <div class="carrinho_menu">{{carrinhoTotal | numeroPreco}} | {{carrinho.length}}</div>
+      <div class="carrinho_menu" @click="carrinhoAtivo = true">{{carrinhoTotal | numeroPreco}} | {{carrinho.length}}</div>
     </header>
 
     <section class="produtos">
@@ -68,7 +68,7 @@
               <button class="carrinho_remover" @click="removerItem(index)">X</button>
             </li>
           </ul>
-          <p class="carrinho_total">{{carrinhoTotal | numeroPreco}}</p>
+          <p class="carrinho_total">Total: {{carrinhoTotal | numeroPreco}}</p>
           <button class="finalizar_compra">Finalizar Compra</button>
         </div>
         <p v-else>O carrinho está vazio.</p>
